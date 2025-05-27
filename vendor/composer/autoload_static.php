@@ -22,6 +22,13 @@ class ComposerStaticInit6104dbff548f335c9aec0204f671c3d7
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Walsgit\\Discussion\\Cards\\Api\\Controllers\\DeleteImageController' => __DIR__ . '/../..' . '/src/Api/Controllers/DeleteImageController.php',
+        'Walsgit\\Discussion\\Cards\\Api\\Controllers\\DeleteTagImageController' => __DIR__ . '/../..' . '/src/Api/Controllers/DeleteTagImageController.php',
+        'Walsgit\\Discussion\\Cards\\Api\\Controllers\\UpdateAllowedTagsController' => __DIR__ . '/../..' . '/src/Api/Controllers/UpdateAllowedTagsController.php',
+        'Walsgit\\Discussion\\Cards\\Api\\Controllers\\UpdateTagSettingsController' => __DIR__ . '/../..' . '/src/Api/Controllers/UpdateTagSettingsController.php',
+        'Walsgit\\Discussion\\Cards\\Api\\Controllers\\UploadImageController' => __DIR__ . '/../..' . '/src/Api/Controllers/UploadImageController.php',
+        'Walsgit\\Discussion\\Cards\\Api\\Controllers\\UploadTagImageController' => __DIR__ . '/../..' . '/src/Api/Controllers/UploadTagImageController.php',
+        'Walsgit\\Discussion\\Cards\\Extenders\\RegisterLessVariables' => __DIR__ . '/../..' . '/src/Extenders/RegisterLessVariables.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

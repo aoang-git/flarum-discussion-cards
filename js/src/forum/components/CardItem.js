@@ -117,6 +117,9 @@ export default class cardItem extends Component {
 			<div className="imgStub" />
 		);
 
+		/* Jump to the last relevant post (first unread or last post) */
+		const jumpTo = Math.min(discussion.lastPostNumber() ?? 0, (discussion.lastReadPostNumber() || 0) + 1);
+
 		return (
 			<div
 				key={discussion.id()}
@@ -144,7 +147,7 @@ export default class cardItem extends Component {
 						)
 					: ""}
 				<Link
-					href={app.route.discussion(discussion, 0)}
+					href={app.route.discussion(discussion, jumpTo)}
 					className="cardLink"
 				>
 					{Number(settings.showBadges) === 1

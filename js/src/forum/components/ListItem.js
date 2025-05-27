@@ -113,6 +113,9 @@ export default class listItem extends Component {
             loading="lazy"/>
       : <div className="imgStub"/>
 
+    /* Jump to the last relevant post (first unread or last post) */
+    const jumpTo = Math.min(discussion.lastPostNumber() ?? 0, (discussion.lastReadPostNumber() || 0) + 1);
+
     return (
       <div key={discussion.id()}
           data-id={discussion.id()}
@@ -124,7 +127,7 @@ export default class listItem extends Component {
             buttonClassName: 'Button Button--icon Button--flat Slidable-underneath Slidable-underneath--right',
           }, DiscussionControls.controls(discussion, this).toArray())
           : ''}
-        <Link href={app.route.discussion(discussion, 0)}
+        <Link href={app.route.discussion(discussion, jumpTo)}
               className="cardLink">
 
           {Number(settings.showBadges) === 1

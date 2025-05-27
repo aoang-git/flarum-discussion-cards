@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.3.0] - 2025-05-27
+### Changed
+- Cards now link to the discussion's first unread post (reply) or to the last post if all are read.
+
 ## [1.2.0] - 2024-12-17
 ### Added
 - NEW option to show the number of replies on the right side of a card's title (like the default Flarum design) instead of on the image.
