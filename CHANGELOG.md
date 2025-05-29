@@ -10,7 +10,7 @@
 - English & French translations updated for the show views settings and unread replies count display on cards.
 
 ### Fixed
-- cards didn't display when at least one discussion had a FOF Best Answer badge and show badges was activated. (partial fix as the Best Answer badge is displayed without icon or color because that data isn't passed to the payload by the FOF Best Answer extension) so still WIP but not a breaking bug annymore.
+- cards didn't display when at least one discussion had a FOF Best Answer badge and show badges was activated. (partial fix as the Best Answer badge is displayed without icon or color because that data isn't passed to the payload by the FOF Best Answer extension) so still WIP but not a breaking bug anymore.
 
 ## [1.2.0] - 2024-12-17
 ### Added
