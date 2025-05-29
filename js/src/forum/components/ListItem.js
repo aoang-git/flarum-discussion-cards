@@ -33,6 +33,15 @@ export default class listItem extends Component {
 			}
 		}
 
+    /* Getting & setting relevant info for 3rd party Views extensions support: Flarumite and MichaelBelgium */
+		const viewsActivated = 'flarumite-simple-discussion-views' in flarum.extensions;
+		const isViewsSet = discussion.data.attributes.hasOwnProperty('views');
+
+		const mbViewsActivated = 'michaelbelgium-discussion-views' in flarum.extensions;
+		const isViewCountSet = discussion.data.attributes.hasOwnProperty('viewCount');
+
+		const viewsCount = viewsActivated && isViewsSet ? discussion.views() : mbViewsActivated && isViewCountSet ? discussion.viewCount() : NaN;
+
     /* Getting & setting relevant info for 3rd party Flarum Blog support */
 		const blogActivated = app.forum.data.attributes.hasOwnProperty('blogTags');
 		const blogSettings = {};
@@ -113,6 +122,15 @@ export default class listItem extends Component {
             loading="lazy"/>
       : <div className="imgStub"/>
 
+    /* Jump to the last relevant post (first unread or last post) */
+    const jumpTo = Math.min(discussion.lastPostNumber() ?? 0, (discussion.lastReadPostNumber() || 0) + 1);
+
+    /* setting post counts & text */
+		const replyText = discussion.unreadCount() 
+			? app.translator.trans("walsgit_discussion_cards.forum.unreadReplies", { count: discussion.unreadCount()} ) 
+			: app.translator.trans("walsgit_discussion_cards.forum.replies", { count: discussion.replyCount() || "0"} );
+    const postCount = discussion.unreadCount() ? discussion.unreadCount() + "*" : discussion.replyCount();
+
     return (
       <div key={discussion.id()}
           data-id={discussion.id()}
@@ -124,7 +142,7 @@ export default class listItem extends Component {
             buttonClassName: 'Button Button--icon Button--flat Slidable-underneath Slidable-underneath--right',
           }, DiscussionControls.controls(discussion, this).toArray())
           : ''}
-        <Link href={app.route.discussion(discussion, 0)}
+        <Link href={app.route.discussion(discussion, jumpTo)}
               className="cardLink">
 
           {Number(settings.showBadges) === 1
@@ -135,12 +153,12 @@ export default class listItem extends Component {
 
             <div className="rowSpan-3 colSpan">
               <div {...attrs}>
-                {discussion.data.attributes.hasOwnProperty('views') && (
+                {(isViewsSet || isViewCountSet) && (
                   <>
-                  {Number(settings.showViews) === 1 && !isNaN(discussion.views())
+                  {Number(settings.showViews) === 1 && !isNaN(viewsCount)
                     ? <div className="imageLabel discussionViews">
                       {icon('fas fa-eye', {className: 'labelIcon'})}
-                      {discussion.views()}
+                      {viewsCount}
                     </div>
                     : ''}
                   </>
@@ -171,7 +189,7 @@ export default class listItem extends Component {
                   </h2>
                   {app.screen() !== 'phone' && Number(settings.showReplies) === 1 && Number(settings.showRepliesOnRight) === 1 ?
                   <div className="DiscussionListItem-count">
-                    <span aria-hidden="true">{abbreviateNumber(discussion.replyCount())}</span>
+                    <span aria-hidden="true">{abbreviateNumber(postCount)}</span>
 
                     <span className="visually-hidden">
                       {app.translator.trans('core.forum.discussion_list.unread_replies_a11y_label', { count: discussion.replyCount() })}
@@ -211,7 +229,7 @@ export default class listItem extends Component {
                         {m(LastReplies, {discussion: discussion})}
                       </div>
                       <div className="Repcount">
-                        {app.translator.trans('walsgit_discussion_cards.forum.replies', {count: discussion.replyCount() || '0'})}
+                        {replyText}
                       </div>
                     </div>
                     <div className="Arrow">
@@ -222,7 +240,7 @@ export default class listItem extends Component {
                 : Number(settings.showReplies) === 1 && !Number(settings.showRepliesOnRight) ?
                   <div className="imageLabel discussionReplyCount">
                     {icon('fas fa-comment', {className: 'labelIcon'})}
-                    {discussion.replyCount()}
+                    {postCount}
                   </div> : ''
               }
             </div>

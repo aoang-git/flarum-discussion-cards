@@ -13,6 +13,11 @@ export default class Settings extends ExtensionPage {
 			name: 'Flarumite Simple Discussion Views',
 			url: 'https://flarum.org/extension/flarumite/simple-discussion-views',
 		};
+		const mbViewsExtension = {
+			id: 'michaelbelgium-discussion-views',
+			name: 'michaelbelgium/flarum-discussion-views',
+			url: 'https://flarum.org/extension/michaelbelgium/flarum-discussion-views',
+		};
 		const blogExtension = {
 			id: 'v17development-blog',
 			name: 'Flarum Blog',
@@ -22,7 +27,7 @@ export default class Settings extends ExtensionPage {
 			id: 'shebaoting-repost',
 			name: 'Repost',
 			url: 'https://flarum.org/extension/shebaoting/repost',
-		}
+		};
 
 		const warningIcon = icon("fas fa-exclamation-triangle");
 
@@ -153,18 +158,20 @@ export default class Settings extends ExtensionPage {
 						<p className="helpText">
 							{app.translator.trans("walsgit_discussion_cards.admin.settings.general.otherOptions_info")}
 						</p>
-						{/* flarumite/simple-discussion-views */}
+						{/* flarumite/simple-discussion-views OR michaelbelgium/flarum-ext-discussion-views */}
 						<div className="Section">
 							<h4>
 								{app.translator.trans("walsgit_discussion_cards.admin.settings.general.showViews_title_start")}
 								<a href={viewsExtension.url} target="_blank" rel="noopener noreferrer">{viewsExtension.name}</a>
+								{app.translator.trans("walsgit_discussion_cards.admin.settings.general.showViews_title_or")}
+								<a href={mbViewsExtension.url} target="_blank" rel="noopener noreferrer">{mbViewsExtension.name}</a>
 								{app.translator.trans("walsgit_discussion_cards.admin.settings.general.showViews_title_end")}
 							</h4>
 							<div className="helpText">
 								<em>
-									{!isExtensionInstalled(viewsExtension.id) 
+									{!isExtensionInstalled(viewsExtension.id) && !isExtensionInstalled(mbViewsExtension.id)
 									? app.translator.trans("walsgit_discussion_cards.admin.settings.general.viewsExtension_notInstalled", {icon: warningIcon}) : 
-									!isExtensionActive(viewsExtension.id) 
+									(isExtensionInstalled(viewsExtension.id) && !isExtensionActive(viewsExtension.id)) || (isExtensionInstalled(mbViewsExtension.id) && !isExtensionActive(mbViewsExtension.id)) 
 									? app.translator.trans("walsgit_discussion_cards.admin.settings.general.viewsExtension_notActivated", {icon: warningIcon}) :
 									''}
 								</em>
@@ -174,7 +181,7 @@ export default class Settings extends ExtensionPage {
 								setting: "walsgit_discussion_cards_showViews",
 								label: app.translator.trans("walsgit_discussion_cards.admin.settings.general.showViews_label"),
 								help: app.translator.trans("walsgit_discussion_cards.admin.settings.general.showViews_help"),
-								disabled: isExtensionActive(viewsExtension.id) ? false : true,
+								disabled: isExtensionActive(viewsExtension.id) || isExtensionActive(mbViewsExtension.id) ? false : true,
 							})}
 							<hr></hr>
 							{/* v17development/flarum-blog */}

@@ -1,6 +1,7 @@
 walsgit_discussion_cards:
   forum:
     replies: "Réponses : {count}"
+    unreadReplies: "Réponses non lues : {count}"
   admin:
     settings:
       general:
@@ -26,10 +27,10 @@ walsgit_discussion_cards:
         previewText_help: "Si activé, cela affichera sur les cartes le début du premier message de la discussion."
         showAuthor_label: "Affichez l'auteur"
         showAuthor_help: "Si activé, cela affichera l'auteur de la discussion sur les cartes."
-        showReplies_label: "Affichez le nombre de réponses"
-        showReplies_help: "Si activé, cela affichera le nombre de réponses sur les cartes (et les avatars des quelques participants à la discussion sur les cartes primaires)."
-        showRepliesOnRight_label: "Affichez le nombre de réponses à droite du titre de la carte"
-        showRepliesOnRight_help: "Si l'option est activée, cela placera le nombre de réponses à droite du titre des cartes (non primaires) sur les écrans larges (au lieu d'en bas à gauche de l'image comme c'est le cas par défaut)."
+        showReplies_label: "Affichez le nombre de réponses (ou de réponses non lues avec un * si applicable)"
+        showReplies_help: "Si activé, cela affichera le nombre de réponses (ou de réponses non lues avec un * si applicable) sur les cartes (et les avatars des quelques participants à la discussion sur les cartes primaires)."
+        showRepliesOnRight_label: "Affichez le nombre de réponses (ou de réponses non lues avec un * si applicable) à droite du titre de la carte"
+        showRepliesOnRight_help: "Si l'option est activée, cela placera le nombre de réponses (ou de réponses non lues avec un * si applicable) à droite du titre des cartes (non primaires) sur les écrans larges (au lieu d'en bas à gauche de l'image comme c'est le cas par défaut)."
         showLastPostInfo_label: "Affichez les infos du dernier post"
         showLastPostInfo_help: "Si l'option est activée, cela affichera sur la carte, sous la prévisualisation du message (ou sous les étiquettes si la prévisualisation n'est pas activée), le nom d'utilisateur de l'auteur de la dernière réponse de la discussion ainsi que sa date."
         showBadges_label: "Affichez les badges"
@@ -38,10 +39,11 @@ walsgit_discussion_cards:
         markReadCards_help: "Si activé, les discussions lues auront leur titre et texte grisés avec une police moins grasse."
         otherOptions_title: "Options qui nécessitent d'autres extensions"
         otherOptions_info: "Les options qui suivent sont dépendantes de l'installation et de l'activation d'extensions tierces pour fonctionner. <strong>IMPORTANT: merci de lire <u>l'intégralité</u> des informations de chaque option et assurez vous d'avoir réalisé toutes les étapes requises avant de l'activer</strong>."
-        showViews_title_start: "Avec l'extension "
+        showViews_title_start: "Avec l'une des extensions "
+        showViews_title_or: " OU "
         showViews_title_end: " installée et activtée, vous pouvez configurer l'option (1) suivante :"
-        viewsExtension_notInstalled: "{icon} Cette extension doit être installée & activée pour que cette option fonctionne."
-        viewsExtension_notActivated: "{icon} Cette extension doit être activée pour que cette option fonctionne."
+        viewsExtension_notInstalled: "{icon} L'une de ces extensions doit être installée & activée pour que cette option fonctionne."
+        viewsExtension_notActivated: "{icon} L'extension Discussion Views doit être activée pour que cette option fonctionne."
         showViews_label: "Affichez le nombre de vues"
         showViews_help: "Si l'option est activée, cela affichera le nombre de vues de la discussion sur sa carte."
         blogExtension_title_start: "Avec l'extention "

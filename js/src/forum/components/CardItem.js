@@ -31,6 +31,15 @@ export default class cardItem extends Component {
 			}
 		}
 
+		/* Getting & setting relevant info for 3rd party Views extensions support: Flarumite and MichaelBelgium */
+		const viewsActivated = 'flarumite-simple-discussion-views' in flarum.extensions;
+		const isViewsSet = discussion.data.attributes.hasOwnProperty('views');
+
+		const mbViewsActivated = 'michaelbelgium-discussion-views' in flarum.extensions;
+		const isViewCountSet = discussion.data.attributes.hasOwnProperty('viewCount');
+
+		const viewsCount = viewsActivated && isViewsSet ? discussion.views() : mbViewsActivated && isViewCountSet ? discussion.viewCount() : NaN;
+
 		/* Getting & setting relevant info for 3rd party Flarum Blog extension support */
 		const blogActivated = app.forum.data.attributes.hasOwnProperty('blogTags');
 		const blogSettings = {};
@@ -117,6 +126,14 @@ export default class cardItem extends Component {
 			<div className="imgStub" />
 		);
 
+		/* Jump to the last relevant post (first unread or last post) */
+		const jumpTo = Math.min(discussion.lastPostNumber() ?? 0, (discussion.lastReadPostNumber() || 0) + 1);
+
+		/* setting post counts & text */
+		const replyText = discussion.unreadCount() 
+			? app.translator.trans("walsgit_discussion_cards.forum.unreadReplies", { count: discussion.unreadCount()} ) 
+			: app.translator.trans("walsgit_discussion_cards.forum.replies", { count: discussion.replyCount() || "0"} );
+
 		return (
 			<div
 				key={discussion.id()}
@@ -144,7 +161,7 @@ export default class cardItem extends Component {
 						)
 					: ""}
 				<Link
-					href={app.route.discussion(discussion, 0)}
+					href={app.route.discussion(discussion, jumpTo)}
 					className="cardLink"
 				>
 					{Number(settings.showBadges) === 1
@@ -152,13 +169,13 @@ export default class cardItem extends Component {
 						: ""}
 
 					<div {...attrs}>
-						{discussion.data.attributes.hasOwnProperty('views') && (
+						{(isViewsSet || isViewCountSet) && (
 							<>
 								{Number(settings.showViews) === 1 &&
-								!isNaN(discussion.views()) ? (
+								!isNaN(viewsCount) ? (
 									<div className="imageLabel discussionViews">
 										{icon("fas fa-eye", { className: "labelIcon" })}
-										{discussion.views()}
+										{viewsCount}
 									</div>
 								) : (
 									""
@@ -225,14 +242,7 @@ export default class cardItem extends Component {
 										})}
 									</div>
 									<div className="Repcount">
-										{app.translator.trans(
-											"walsgit_discussion_cards.forum.replies",
-											{
-												count:
-													discussion.replyCount() ||
-													"0",
-											}
-										)}
+										{replyText}
 									</div>
 								</div>
 								<div className="Arrow">
