@@ -22,6 +22,7 @@ export default class cardItem extends Component {
 
 	view() {
 		const discussion = this.discussion;
+		console.log("discussion: ", discussion);
 		const settings = {};
 		for (const key in app.forum.data.attributes) {
 			if (key.startsWith('walsgitDiscussionCards')) {
@@ -119,6 +120,12 @@ export default class cardItem extends Component {
 
 		/* Jump to the last relevant post (first unread or last post) */
 		const jumpTo = Math.min(discussion.lastPostNumber() ?? 0, (discussion.lastReadPostNumber() || 0) + 1);
+
+		/* setting post counts & text */
+		console.log("unread count: " + discussion.unreadCount());
+		const replyText = discussion.unreadCount() 
+			? app.translator.trans("walsgit_discussion_cards.forum.unreadReplies", { count: discussion.unreadCount()} ) 
+			: app.translator.trans("walsgit_discussion_cards.forum.replies", { count: discussion.replyCount() || "0"} );
 
 		return (
 			<div
@@ -228,14 +235,7 @@ export default class cardItem extends Component {
 										})}
 									</div>
 									<div className="Repcount">
-										{app.translator.trans(
-											"walsgit_discussion_cards.forum.replies",
-											{
-												count:
-													discussion.replyCount() ||
-													"0",
-											}
-										)}
+										{replyText}
 									</div>
 								</div>
 								<div className="Arrow">

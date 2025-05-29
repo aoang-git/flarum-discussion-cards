@@ -3,6 +3,7 @@
 ## [1.3.0] - 2025-05-29
 ### Changed
 - Cards now link to the discussion's first unread post (reply) or to the last post if all are read.
+- Number of replies on cards now shows the number of unread replies (with an **asterisk**) when there are unread replies, and the total number of replies otherwise (discussion fully read).
 
 ### Fixed
 - cards didn't display when at least one discussion had a FOF Best Answer badge and show badges was activated. (partial fix as the Best Answer badge is displayed without icon or color because that data isn't passed to the payload by the FOF Best Answer extension) so still WIP but not a breaking bug annymore.

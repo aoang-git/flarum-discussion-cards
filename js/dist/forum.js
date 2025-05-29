@@ -98,6 +98,7 @@ var cardItem = /*#__PURE__*/function (_Component) {
   _proto.view = function view() {
     var _discussion$lastPostN;
     var discussion = this.discussion;
+    console.log("discussion: ", discussion);
     var settings = {};
     for (var key in app.forum.data.attributes) {
       if (key.startsWith('walsgitDiscussionCards')) {
@@ -201,6 +202,14 @@ var cardItem = /*#__PURE__*/function (_Component) {
 
     /* Jump to the last relevant post (first unread or last post) */
     var jumpTo = Math.min((_discussion$lastPostN = discussion.lastPostNumber()) != null ? _discussion$lastPostN : 0, (discussion.lastReadPostNumber() || 0) + 1);
+
+    /* setting post counts & text */
+    console.log("unread count: " + discussion.unreadCount());
+    var replyText = discussion.unreadCount() ? app.translator.trans("walsgit_discussion_cards.forum.unreadReplies", {
+      count: discussion.unreadCount()
+    }) : app.translator.trans("walsgit_discussion_cards.forum.replies", {
+      count: discussion.replyCount() || "0"
+    });
     return m("div", {
       key: discussion.id(),
       "data-id": discussion.id(),
@@ -255,9 +264,7 @@ var cardItem = /*#__PURE__*/function (_Component) {
       discussion: discussion
     })), m("div", {
       className: "Repcount"
-    }, app.translator.trans("walsgit_discussion_cards.forum.replies", {
-      count: discussion.replyCount() || "0"
-    }))), m("div", {
+    }, replyText)), m("div", {
       className: "Arrow"
     }, flarum_common_helpers_icon__WEBPACK_IMPORTED_MODULE_6___default()("fas fa-angle-right")))) : ""));
   };
@@ -494,6 +501,15 @@ var listItem = /*#__PURE__*/function (_Component) {
 
     /* Jump to the last relevant post (first unread or last post) */
     var jumpTo = Math.min((_discussion$lastPostN = discussion.lastPostNumber()) != null ? _discussion$lastPostN : 0, (discussion.lastReadPostNumber() || 0) + 1);
+
+    /* setting post counts & text */
+    console.log("unread count: " + discussion.unreadCount());
+    var replyText = discussion.unreadCount() ? app.translator.trans("walsgit_discussion_cards.forum.unreadReplies", {
+      count: discussion.unreadCount()
+    }) : app.translator.trans("walsgit_discussion_cards.forum.replies", {
+      count: discussion.replyCount() || "0"
+    });
+    var postCount = discussion.unreadCount() ? discussion.unreadCount() + "*" : discussion.replyCount();
     return m("div", {
       key: discussion.id(),
       "data-id": discussion.id(),
@@ -537,7 +553,7 @@ var listItem = /*#__PURE__*/function (_Component) {
       className: "DiscussionListItem-count"
     }, m("span", {
       "aria-hidden": "true"
-    }, flarum_common_utils_abbreviateNumber__WEBPACK_IMPORTED_MODULE_15___default()(discussion.replyCount())), m("span", {
+    }, flarum_common_utils_abbreviateNumber__WEBPACK_IMPORTED_MODULE_15___default()(postCount)), m("span", {
       className: "visually-hidden"
     }, app.translator.trans('core.forum.discussion_list.unread_replies_a11y_label', {
       count: discussion.replyCount()
@@ -563,15 +579,13 @@ var listItem = /*#__PURE__*/function (_Component) {
       discussion: discussion
     })), m("div", {
       className: "Repcount"
-    }, app.translator.trans('walsgit_discussion_cards.forum.replies', {
-      count: discussion.replyCount() || '0'
-    }))), m("div", {
+    }, replyText)), m("div", {
       className: "Arrow"
     }, flarum_common_helpers_icon__WEBPACK_IMPORTED_MODULE_6___default()('fas fa-angle-right')))) : Number(settings.showReplies) === 1 && !Number(settings.showRepliesOnRight) ? m("div", {
       className: "imageLabel discussionReplyCount"
     }, flarum_common_helpers_icon__WEBPACK_IMPORTED_MODULE_6___default()('fas fa-comment', {
       className: 'labelIcon'
-    }), discussion.replyCount()) : ''))));
+    }), postCount) : ''))));
   };
   return listItem;
 }((flarum_common_Component__WEBPACK_IMPORTED_MODULE_1___default()));
