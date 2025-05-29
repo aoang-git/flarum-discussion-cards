@@ -848,7 +848,7 @@ function craftBadges(badges) {
   if (badges.length) {
     return [m('.cardBadges', [badges.map(function (badge) {
       return [m((flarum_common_components_Tooltip__WEBPACK_IMPORTED_MODULE_1___default()), {
-        text: badge.attrs.label[0],
+        text: badge.attrs.label ? badge.attrs.label[0] : '',
         position: 'right'
       }, m('span.cardBadge.Badge.Badge--' + badge.attrs.type, [flarum_common_helpers_icon__WEBPACK_IMPORTED_MODULE_0___default()(badge.attrs.icon)]))];
     })])];

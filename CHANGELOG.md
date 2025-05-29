@@ -1,8 +1,11 @@
 # Changelog
 
-## [1.3.0] - 2025-05-27
+## [1.3.0] - 2025-05-29
 ### Changed
 - Cards now link to the discussion's first unread post (reply) or to the last post if all are read.
+
+### Fixed
+- cards didn't display when at least one discussion had a FOF Best Answer badge and show badges was activated. (partial fix as the Best Answer badge is displayed without icon or color because that data isn't passed to the payload by the FOF Best Answer extension) so still WIP but not a breaking bug annymore.
 
 ## [1.2.0] - 2024-12-17
 ### Added
