@@ -122,7 +122,6 @@ export default class cardItem extends Component {
 		const jumpTo = Math.min(discussion.lastPostNumber() ?? 0, (discussion.lastReadPostNumber() || 0) + 1);
 
 		/* setting post counts & text */
-		console.log("unread count: " + discussion.unreadCount());
 		const replyText = discussion.unreadCount() 
 			? app.translator.trans("walsgit_discussion_cards.forum.unreadReplies", { count: discussion.unreadCount()} ) 
 			: app.translator.trans("walsgit_discussion_cards.forum.replies", { count: discussion.replyCount() || "0"} );

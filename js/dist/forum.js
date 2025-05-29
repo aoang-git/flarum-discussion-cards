@@ -204,7 +204,6 @@ var cardItem = /*#__PURE__*/function (_Component) {
     var jumpTo = Math.min((_discussion$lastPostN = discussion.lastPostNumber()) != null ? _discussion$lastPostN : 0, (discussion.lastReadPostNumber() || 0) + 1);
 
     /* setting post counts & text */
-    console.log("unread count: " + discussion.unreadCount());
     var replyText = discussion.unreadCount() ? app.translator.trans("walsgit_discussion_cards.forum.unreadReplies", {
       count: discussion.unreadCount()
     }) : app.translator.trans("walsgit_discussion_cards.forum.replies", {
@@ -503,7 +502,6 @@ var listItem = /*#__PURE__*/function (_Component) {
     var jumpTo = Math.min((_discussion$lastPostN = discussion.lastPostNumber()) != null ? _discussion$lastPostN : 0, (discussion.lastReadPostNumber() || 0) + 1);
 
     /* setting post counts & text */
-    console.log("unread count: " + discussion.unreadCount());
     var replyText = discussion.unreadCount() ? app.translator.trans("walsgit_discussion_cards.forum.unreadReplies", {
       count: discussion.unreadCount()
     }) : app.translator.trans("walsgit_discussion_cards.forum.replies", {
