@@ -1,9 +1,13 @@
 # Changelog
 
 ## [1.3.0] - 2025-05-29
+### Added
+- Added support for the `michaelbelgium/flarum-discussion-views` extension. To display views count on cards you can now use either michaelbelgium's or flarumite's extension.
+
 ### Changed
 - Cards now link to the discussion's first unread post (reply) or to the last post if all are read.
 - Number of replies on cards now shows the number of unread replies (with an **asterisk**) when there are unread replies, and the total number of replies otherwise (discussion fully read).
+- English & French translations updated for the show views settings and unread replies count display on cards.
 
 ### Fixed
 - cards didn't display when at least one discussion had a FOF Best Answer badge and show badges was activated. (partial fix as the Best Answer badge is displayed without icon or color because that data isn't passed to the payload by the FOF Best Answer extension) so still WIP but not a breaking bug annymore.

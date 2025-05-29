@@ -22,7 +22,6 @@ export default class cardItem extends Component {
 
 	view() {
 		const discussion = this.discussion;
-		console.log("discussion: ", discussion);
 		const settings = {};
 		for (const key in app.forum.data.attributes) {
 			if (key.startsWith('walsgitDiscussionCards')) {
@@ -31,6 +30,15 @@ export default class cardItem extends Component {
 				settings[newKey] = app.forum.data.attributes[key];
 			}
 		}
+
+		/* Getting & setting relevant info for 3rd party Views extensions support: Flarumite and MichaelBelgium */
+		const viewsActivated = 'flarumite-simple-discussion-views' in flarum.extensions;
+		const isViewsSet = discussion.data.attributes.hasOwnProperty('views');
+
+		const mbViewsActivated = 'michaelbelgium-discussion-views' in flarum.extensions;
+		const isViewCountSet = discussion.data.attributes.hasOwnProperty('viewCount');
+
+		const viewsCount = viewsActivated && isViewsSet ? discussion.views() : mbViewsActivated && isViewCountSet ? discussion.viewCount() : NaN;
 
 		/* Getting & setting relevant info for 3rd party Flarum Blog extension support */
 		const blogActivated = app.forum.data.attributes.hasOwnProperty('blogTags');
@@ -161,13 +169,13 @@ export default class cardItem extends Component {
 						: ""}
 
 					<div {...attrs}>
-						{discussion.data.attributes.hasOwnProperty('views') && (
+						{(isViewsSet || isViewCountSet) && (
 							<>
 								{Number(settings.showViews) === 1 &&
-								!isNaN(discussion.views()) ? (
+								!isNaN(viewsCount) ? (
 									<div className="imageLabel discussionViews">
 										{icon("fas fa-eye", { className: "labelIcon" })}
-										{discussion.views()}
+										{viewsCount}
 									</div>
 								) : (
 									""

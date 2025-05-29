@@ -98,7 +98,6 @@ var cardItem = /*#__PURE__*/function (_Component) {
   _proto.view = function view() {
     var _discussion$lastPostN;
     var discussion = this.discussion;
-    console.log("discussion: ", discussion);
     var settings = {};
     for (var key in app.forum.data.attributes) {
       if (key.startsWith('walsgitDiscussionCards')) {
@@ -107,6 +106,13 @@ var cardItem = /*#__PURE__*/function (_Component) {
         settings[newKey] = app.forum.data.attributes[key];
       }
     }
+
+    /* Getting & setting relevant info for 3rd party Views extensions support: Flarumite and MichaelBelgium */
+    var viewsActivated = 'flarumite-simple-discussion-views' in flarum.extensions;
+    var isViewsSet = discussion.data.attributes.hasOwnProperty('views');
+    var mbViewsActivated = 'michaelbelgium-discussion-views' in flarum.extensions;
+    var isViewCountSet = discussion.data.attributes.hasOwnProperty('viewCount');
+    var viewsCount = viewsActivated && isViewsSet ? discussion.views() : mbViewsActivated && isViewCountSet ? discussion.viewCount() : NaN;
 
     /* Getting & setting relevant info for 3rd party Flarum Blog extension support */
     var blogActivated = app.forum.data.attributes.hasOwnProperty('blogTags');
@@ -221,11 +227,11 @@ var cardItem = /*#__PURE__*/function (_Component) {
     }, flarum_forum_utils_DiscussionControls__WEBPACK_IMPORTED_MODULE_9___default().controls(discussion, this).toArray()) : "", m((flarum_common_components_Link__WEBPACK_IMPORTED_MODULE_10___default()), {
       href: app.route.discussion(discussion, jumpTo),
       className: "cardLink"
-    }, Number(settings.showBadges) === 1 ? (0,_utils_craftBadges__WEBPACK_IMPORTED_MODULE_2__["default"])(discussion.badges().toArray()) : "", m("div", attrs, discussion.data.attributes.hasOwnProperty('views') && m('[', null, Number(settings.showViews) === 1 && !isNaN(discussion.views()) ? m("div", {
+    }, Number(settings.showBadges) === 1 ? (0,_utils_craftBadges__WEBPACK_IMPORTED_MODULE_2__["default"])(discussion.badges().toArray()) : "", m("div", attrs, (isViewsSet || isViewCountSet) && m('[', null, Number(settings.showViews) === 1 && !isNaN(viewsCount) ? m("div", {
       className: "imageLabel discussionViews"
     }, flarum_common_helpers_icon__WEBPACK_IMPORTED_MODULE_6___default()("fas fa-eye", {
       className: "labelIcon"
-    }), discussion.views()) : ""), media, Number(settings.showAuthor) === 1 ? m("div", {
+    }), viewsCount) : ""), media, Number(settings.showAuthor) === 1 ? m("div", {
       className: "cardFoot"
     }, m("div", {
       className: "Author"
@@ -407,6 +413,13 @@ var listItem = /*#__PURE__*/function (_Component) {
       }
     }
 
+    /* Getting & setting relevant info for 3rd party Views extensions support: Flarumite and MichaelBelgium */
+    var viewsActivated = 'flarumite-simple-discussion-views' in flarum.extensions;
+    var isViewsSet = discussion.data.attributes.hasOwnProperty('views');
+    var mbViewsActivated = 'michaelbelgium-discussion-views' in flarum.extensions;
+    var isViewCountSet = discussion.data.attributes.hasOwnProperty('viewCount');
+    var viewsCount = viewsActivated && isViewsSet ? discussion.views() : mbViewsActivated && isViewCountSet ? discussion.viewCount() : NaN;
+
     /* Getting & setting relevant info for 3rd party Flarum Blog support */
     var blogActivated = app.forum.data.attributes.hasOwnProperty('blogTags');
     var blogSettings = {};
@@ -523,11 +536,11 @@ var listItem = /*#__PURE__*/function (_Component) {
       className: "cardGrid"
     }, m("div", {
       className: "rowSpan-3 colSpan"
-    }, m("div", attrs, discussion.data.attributes.hasOwnProperty('views') && m('[', null, Number(settings.showViews) === 1 && !isNaN(discussion.views()) ? m("div", {
+    }, m("div", attrs, (isViewsSet || isViewCountSet) && m('[', null, Number(settings.showViews) === 1 && !isNaN(viewsCount) ? m("div", {
       className: "imageLabel discussionViews"
     }, flarum_common_helpers_icon__WEBPACK_IMPORTED_MODULE_6___default()('fas fa-eye', {
       className: 'labelIcon'
-    }), discussion.views()) : ''), media, Number(settings.showAuthor) === 1 ? m("div", {
+    }), viewsCount) : ''), media, Number(settings.showAuthor) === 1 ? m("div", {
       className: "cardFoot"
     }, m("div", {
       className: "Author"

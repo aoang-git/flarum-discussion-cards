@@ -33,6 +33,15 @@ export default class listItem extends Component {
 			}
 		}
 
+    /* Getting & setting relevant info for 3rd party Views extensions support: Flarumite and MichaelBelgium */
+		const viewsActivated = 'flarumite-simple-discussion-views' in flarum.extensions;
+		const isViewsSet = discussion.data.attributes.hasOwnProperty('views');
+
+		const mbViewsActivated = 'michaelbelgium-discussion-views' in flarum.extensions;
+		const isViewCountSet = discussion.data.attributes.hasOwnProperty('viewCount');
+
+		const viewsCount = viewsActivated && isViewsSet ? discussion.views() : mbViewsActivated && isViewCountSet ? discussion.viewCount() : NaN;
+
     /* Getting & setting relevant info for 3rd party Flarum Blog support */
 		const blogActivated = app.forum.data.attributes.hasOwnProperty('blogTags');
 		const blogSettings = {};
@@ -144,12 +153,12 @@ export default class listItem extends Component {
 
             <div className="rowSpan-3 colSpan">
               <div {...attrs}>
-                {discussion.data.attributes.hasOwnProperty('views') && (
+                {(isViewsSet || isViewCountSet) && (
                   <>
-                  {Number(settings.showViews) === 1 && !isNaN(discussion.views())
+                  {Number(settings.showViews) === 1 && !isNaN(viewsCount)
                     ? <div className="imageLabel discussionViews">
                       {icon('fas fa-eye', {className: 'labelIcon'})}
-                      {discussion.views()}
+                      {viewsCount}
                     </div>
                     : ''}
                   </>

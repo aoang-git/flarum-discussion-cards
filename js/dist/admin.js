@@ -44,6 +44,11 @@ var Settings = /*#__PURE__*/function (_ExtensionPage) {
       name: 'Flarumite Simple Discussion Views',
       url: 'https://flarum.org/extension/flarumite/simple-discussion-views'
     };
+    var mbViewsExtension = {
+      id: 'michaelbelgium-discussion-views',
+      name: 'michaelbelgium/flarum-discussion-views',
+      url: 'https://flarum.org/extension/michaelbelgium/flarum-discussion-views'
+    };
     var blogExtension = {
       id: 'v17development-blog',
       name: 'Flarum Blog',
@@ -170,18 +175,22 @@ var Settings = /*#__PURE__*/function (_ExtensionPage) {
       href: viewsExtension.url,
       target: "_blank",
       rel: "noopener noreferrer"
-    }, viewsExtension.name), flarum_admin_app__WEBPACK_IMPORTED_MODULE_1___default().translator.trans("walsgit_discussion_cards.admin.settings.general.showViews_title_end")), m("div", {
+    }, viewsExtension.name), flarum_admin_app__WEBPACK_IMPORTED_MODULE_1___default().translator.trans("walsgit_discussion_cards.admin.settings.general.showViews_title_or"), m("a", {
+      href: mbViewsExtension.url,
+      target: "_blank",
+      rel: "noopener noreferrer"
+    }, mbViewsExtension.name), flarum_admin_app__WEBPACK_IMPORTED_MODULE_1___default().translator.trans("walsgit_discussion_cards.admin.settings.general.showViews_title_end")), m("div", {
       className: "helpText"
-    }, m("em", null, !(0,_helpers_isExtensionInstalled__WEBPACK_IMPORTED_MODULE_4__["default"])(viewsExtension.id) ? flarum_admin_app__WEBPACK_IMPORTED_MODULE_1___default().translator.trans("walsgit_discussion_cards.admin.settings.general.viewsExtension_notInstalled", {
+    }, m("em", null, !(0,_helpers_isExtensionInstalled__WEBPACK_IMPORTED_MODULE_4__["default"])(viewsExtension.id) && !(0,_helpers_isExtensionInstalled__WEBPACK_IMPORTED_MODULE_4__["default"])(mbViewsExtension.id) ? flarum_admin_app__WEBPACK_IMPORTED_MODULE_1___default().translator.trans("walsgit_discussion_cards.admin.settings.general.viewsExtension_notInstalled", {
       icon: warningIcon
-    }) : !(0,_helpers_isExtensionActive__WEBPACK_IMPORTED_MODULE_5__["default"])(viewsExtension.id) ? flarum_admin_app__WEBPACK_IMPORTED_MODULE_1___default().translator.trans("walsgit_discussion_cards.admin.settings.general.viewsExtension_notActivated", {
+    }) : (0,_helpers_isExtensionInstalled__WEBPACK_IMPORTED_MODULE_4__["default"])(viewsExtension.id) && !(0,_helpers_isExtensionActive__WEBPACK_IMPORTED_MODULE_5__["default"])(viewsExtension.id) || (0,_helpers_isExtensionInstalled__WEBPACK_IMPORTED_MODULE_4__["default"])(mbViewsExtension.id) && !(0,_helpers_isExtensionActive__WEBPACK_IMPORTED_MODULE_5__["default"])(mbViewsExtension.id) ? flarum_admin_app__WEBPACK_IMPORTED_MODULE_1___default().translator.trans("walsgit_discussion_cards.admin.settings.general.viewsExtension_notActivated", {
       icon: warningIcon
     }) : '')), this.buildSettingComponent({
       type: "switch",
       setting: "walsgit_discussion_cards_showViews",
       label: flarum_admin_app__WEBPACK_IMPORTED_MODULE_1___default().translator.trans("walsgit_discussion_cards.admin.settings.general.showViews_label"),
       help: flarum_admin_app__WEBPACK_IMPORTED_MODULE_1___default().translator.trans("walsgit_discussion_cards.admin.settings.general.showViews_help"),
-      disabled: (0,_helpers_isExtensionActive__WEBPACK_IMPORTED_MODULE_5__["default"])(viewsExtension.id) ? false : true
+      disabled: (0,_helpers_isExtensionActive__WEBPACK_IMPORTED_MODULE_5__["default"])(viewsExtension.id) || (0,_helpers_isExtensionActive__WEBPACK_IMPORTED_MODULE_5__["default"])(mbViewsExtension.id) ? false : true
     }), m("hr", null), m("h4", null, flarum_admin_app__WEBPACK_IMPORTED_MODULE_1___default().translator.trans("walsgit_discussion_cards.admin.settings.general.blogExtension_title_start"), m("a", {
       href: blogExtension.url,
       target: "_blank",
