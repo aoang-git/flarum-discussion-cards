@@ -9,7 +9,7 @@ import EditTagModal from "flarum/tags/components/EditTagModal";
 import WdcTagSettingsModal from "./components/WdcTagSettingsModal";
 import UploadTagImageButton from "./components/UploadTagImageButton";
 
-app.initializers.add("walsgit/discussion-cards", () => {
+app.initializers.add("aoang-git-flarum-discussion-cards", () => {
 	Tag.prototype.WdcDefaultImage = Model.attribute(
 		"walsgit_discussion_cards_tag_default_image"
 	);
@@ -101,5 +101,5 @@ app.initializers.add("walsgit/discussion-cards", () => {
 		}
 	});
 
-	app.extensionData.for("walsgit-discussion-cards").registerPage(Settings);
+	app.extensionData.for("aoang-git-flarum-discussion-cards").registerPage(Settings);
 });

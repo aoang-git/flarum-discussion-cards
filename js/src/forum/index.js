@@ -10,7 +10,7 @@ import CardItem from './components/CardItem';
 import ListItem from './components/ListItem';
 import checkOverflowingTags from './helpers/checkOverflowingTags';
 
-app.initializers.add('walsgit/discussion/cards', () => {
+app.initializers.add('aoang-git-flarum-discussion-cards', () => {
 
   extend(DiscussionList.prototype, 'oncreate', checkOverflowingTags);
   extend(DiscussionList.prototype, 'onupdate', checkOverflowingTags);
