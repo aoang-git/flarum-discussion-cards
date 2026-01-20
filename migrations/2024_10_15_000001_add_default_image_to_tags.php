@@ -14,14 +14,19 @@ use Illuminate\Database\Schema\Builder;
 
 return [
     'up' => function (Builder $schema) {
-        $schema->table('tags', function (Blueprint $table) {
+        // Check if column already exists to avoid conflicts with walsgit/flarum-discussion-cards
+        if (!$schema->hasColumn('tags', 'walsgit_discussion_cards_tag_default_image')) {
+            $schema->table('tags', function (Blueprint $table) {
                 $table->text('walsgit_discussion_cards_tag_default_image')->nullable();
-        });
+            });
+        }
     },
 
     'down' => function (Builder $schema) {
         $schema->table('tags', function (Blueprint $table) {
-            $table->dropColumn('walsgit_discussion_cards_tag_default_image');
+            if ($schema->hasColumn('tags', 'walsgit_discussion_cards_tag_default_image')) {
+                $table->dropColumn('walsgit_discussion_cards_tag_default_image');
+            }
         });
     },
 ];

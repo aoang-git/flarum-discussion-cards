@@ -1,5 +1,46 @@
 # Changelog
 
+All notable changes to this project will be documented in this file.
+
+## [1.3.4] - 2026-01-21
+
+### Fixed
+- 修复迁移文件冲突问题：添加列存在性检查，避免与原版 `walsgit/flarum-discussion-cards` 冲突
+- 现在可以安全地从原版升级或在已安装原版的环境中安装
+
+### Changed
+- 更新 README，添加详细的安装和升级说明
+- 改进迁移文件的健壮性
+
+## [1.3.3] - 2026-01-20
+
+### Fixed
+- 修复扩展 ID 注册问题
+- 修复前端 JS 中的扩展标识符
+
+## [1.3.2] - 2026-01-20
+
+### Added
+- 多图片支持：列表卡片支持显示 0-5 张图片（可在后台配置 maxListImages）
+- 标签色条：卡片左侧显示 4px 色条，使用最后一个标签的颜色
+- 内容高亮：自动高亮 Hashtag（#标签）和 11 位电话号码
+- 完整中文化：所有界面和设置项
+
+### Changed
+- 图片布局优化：从左侧移至内容下方，横向缩略图显示（80x80px）
+- 无图片时不显示也不占用空间
+
+### Technical
+- 创建 `getPostImages.js` 辅助函数用于提取多张图片
+- 创建 `highlightHashtags.js` 辅助函数用于内容高亮
+- 修改 `ListItem.js` 组件实现新布局
+
+---
+
+## 原版更新日志
+
+以下是基于 walsgit/flarum-discussion-cards v1.3.0 的原版更新日志：
+
 ## [1.3.0] - 2025-05-29
 ### Added
 - Added support for the `michaelbelgium/flarum-discussion-views` extension. To display views count on cards you can now use either michaelbelgium's or flarumite's extension.

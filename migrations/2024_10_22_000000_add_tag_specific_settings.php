@@ -14,15 +14,24 @@ use Illuminate\Database\Schema\Builder;
 
 return [
     'up' => function (Builder $schema) {
-
-        $schema->table('tags', function (Blueprint $table) {
-                $table->text('walsgit_discussion_cards_tag_settings')->nullable()->after('walsgit_discussion_cards_tag_default_image');
-        });
+        // Check if column already exists to avoid conflicts with walsgit/flarum-discussion-cards
+        if (!$schema->hasColumn('tags', 'walsgit_discussion_cards_tag_settings')) {
+            $schema->table('tags', function (Blueprint $table) {
+                // Try to add after the default_image column if it exists, otherwise just add it
+                if ($schema->hasColumn('tags', 'walsgit_discussion_cards_tag_default_image')) {
+                    $table->text('walsgit_discussion_cards_tag_settings')->nullable()->after('walsgit_discussion_cards_tag_default_image');
+                } else {
+                    $table->text('walsgit_discussion_cards_tag_settings')->nullable();
+                }
+            });
+        }
     },
 
     'down' => function (Builder $schema) {
         $schema->table('tags', function (Blueprint $table) {
-            $table->dropColumn('walsgit_discussion_cards_tag_settings');
+            if ($schema->hasColumn('tags', 'walsgit_discussion_cards_tag_settings')) {
+                $table->dropColumn('walsgit_discussion_cards_tag_settings');
+            }
         });
     },
 ];

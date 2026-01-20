@@ -1,6 +1,18 @@
-## Flarum Discussion Cards
+## Flarum Discussion Cards (Enhanced)
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Latest Stable Version](https://img.shields.io/packagist/v/walsgit/flarum-discussion-cards.svg)](https://packagist.org/packages/walsgit/flarum-discussion-cards) [![Total Downloads](https://img.shields.io/packagist/dt/walsgit/flarum-discussion-cards.svg)](https://packagist.org/packages/walsgit/flarum-discussion-cards) [![Donate here](https://img.shields.io/badge/donate-here-%23008e97)](https://walsgit.github.io/Donations/)
+![License](https://img.shields.io/badge/license-MIT-blue.svg) [![GitHub](https://img.shields.io/badge/GitHub-aoang--git-blue)](https://github.com/aoang-git/flarum-discussion-cards)
+
+增强版 Flarum 讨论卡片扩展 - 基于 [walsgit/flarum-discussion-cards](https://github.com/walsgit/flarum-discussion-cards) 进行功能增强。
+
+### 新增功能
+
+- ✨ **多图片支持**：列表卡片支持显示 0-5 张图片（可在后台配置）
+- 🎨 **标签色条**：卡片左侧显示 4px 色条，使用最后一个标签的颜色
+- 🖼️ **优化布局**：图片从左侧移至内容下方，横向缩略图显示（80x80px）
+- 🔖 **内容高亮**：自动高亮 Hashtag（#标签）和 11 位电话号码
+- 🌐 **完整中文化**：所有界面和设置项均已汉化
+
+### 原版功能
 
 A [Flarum](https://flarum.org) extension (**Fork** of ``@Dem13n``'s [discussion-cards](https://github.com/Dem13n/discussion-cards)). Allows you to display discussions in the form of cards, the first image of the first post is used as a preview, if there are no images, a stub is displayed.
 
@@ -31,23 +43,50 @@ Also it changes how the setting to distinguish between read & unread discussion 
 
 ## Installation
 
+### 新安装
+
 Install with composer:
 
 ```sh
-composer require walsgit/flarum-discussion-cards
+composer require aoang-git/flarum-discussion-cards
 ```
+
+### 从原版升级
+
+**重要提示**：如果你之前安装过 `walsgit/flarum-discussion-cards`，建议先完全卸载：
+
+```sh
+# 1. 卸载原版扩展
+composer remove walsgit/flarum-discussion-cards
+
+# 2. 清理缓存
+php flarum cache:clear
+
+# 3. 安装增强版
+composer require aoang-git/flarum-discussion-cards
+
+# 4. 清理缓存
+php flarum cache:clear
+```
+
+**如果遇到迁移冲突**：本扩展的迁移文件已添加列存在性检查，可以安全地与原版共存或升级。如果仍然遇到问题，请在 [GitHub Issues](https://github.com/aoang-git/flarum-discussion-cards/issues) 报告。
 
 ## Updating
 
 ```sh
-composer update walsgit/flarum-discussion-cards
+composer update aoang-git/flarum-discussion-cards
 php flarum migrate
 php flarum cache:clear
 ```
 
 ## Links
 
-- [Packagist](https://packagist.org/packages/walsgit/flarum-discussion-cards)
-- [GitHub](https://github.com/walsgit/flarum-discussion-cards)
-- [Discuss](https://discuss.flarum.org/d/36343-flarum-discussion-cards)
-- [Donate](https://walsgit.github.io/Donations/)
+- [GitHub](https://github.com/aoang-git/flarum-discussion-cards)
+- [原版扩展](https://github.com/walsgit/flarum-discussion-cards)
+- [原版讨论](https://discuss.flarum.org/d/36343-flarum-discussion-cards)
+
+## Credits
+
+- 原作者：[Wa!id](https://github.com/walsgit)
+- 增强版：[aoangen](https://github.com/aoang-git)
+- 基于：[@Dem13n's discussion-cards](https://github.com/Dem13n/discussion-cards)
