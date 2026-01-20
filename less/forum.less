@@ -162,18 +162,6 @@
   position: relative;
 }
 
-.cardTitle {
-  padding: 0 1rem 0.5rem 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 10px;
-
-  h2.title a {
-    all: unset;
-  }
-}
-
 .previewPost {
   padding: 0 1rem 0 1rem;
   color: gray;
@@ -183,9 +171,9 @@
   display: -moz-box;
   display: -webkit-box;
   -moz-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
-  line-clamp: 3;
+  line-clamp: 5;
   box-orient: vertical;
   word-break: normal;
   margin-bottom: 25px;
@@ -217,78 +205,310 @@
   background-size: cover;
 }
 
+/* ========================================
+   通用样式 - 大卡片和列表卡片共用
+   ======================================== */
+
+/* 徽章通用样式 */
 .cardBadges {
-  position: absolute;
-  left: 15px;
-  top: 15px;
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
   z-index: 1;
+  align-items: center; // 垂直居中
 }
 
 .cardBadge {
-  margin-right: 3px;
-  display: inline-block;
-  padding: 3px 6px 3px 6px;
-  border-radius: 4px 4px 4px 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 6px; // 增加垂直内边距
+  border-radius: 4px;
   font-size: 11px;
   text-align: center;
-  width: 28px;
-  line-height: 16px;
+  min-width: 28px;
+  line-height: 1.2; // 统一行高
 }
 
+/* 标签通用样式 */
 .cardTags {
-  margin: 0 15px;
-  display: block;
-  width: calc(~'100% - 30px');
-  white-space: nowrap;
-  overflow: hidden;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-mask-image: linear-gradient(to right, #000 90%, rgba(0,0,0,0) 100%);
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  @media tablet {
-    overflow-x:unset;
-  }
-
-  &.overflowing {
-    &:hover {
-      -webkit-mask-image: none;
-      min-width: max-content;
-      animation: scroll 10s linear infinite;
-    }
-  }
-
-  @keyframes scroll {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
-  }
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  align-items: center; // 垂直居中
 }
 
 .cardTag {
-  display: inline;
+  display: inline-flex; // 改为inline-flex以更好地对齐
+  align-items: center; // 内容垂直居中
   color: white;
-  padding: 2px 10px 2px 10px;
-
+  padding: 4px 10px; // 增加垂直内边距，与标题高度更匹配
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: 6px;
+  font-size: 0.875rem; // 稍微增大字体
+  line-height: 1.2; // 统一行高
+  
   &:hover {
     filter: opacity(0.8);
     text-decoration: none;
   }
+}
 
-  &:first-child {
-    border-bottom-left-radius: 6px;
-    border-top-left-radius: 6px;
+/* 标题通用样式 */
+h2.title {
+  font-size: 1.25rem;
+  color: #000;
+  font-weight: 700;
+  margin: 0;
+  word-break: break-word;
+  
+  a {
+    all: unset;
+    cursor: pointer;
+  }
+}
+
+/* Hashtag高亮样式 */
+.hashtag {
+  color: #0088cc;
+  font-weight: 500;
+  background: rgba(0, 136, 204, 0.08);
+  padding: 1px 4px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+/* ========================================
+   大卡片特定样式 (Card)
+   ======================================== */
+.CardsListItem.Card {
+  /* 徽章、标签、标题行 - 与ListItem相同的布局 */
+  .cardHeaderRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 0 1rem 0.5rem 1rem;
+    
+    .cardBadges {
+      position: static; // 不再绝对定位
+      margin: 0;
+      flex-shrink: 0;
+    }
+    
+    .cardTags {
+      margin: 0;
+      width: auto;
+      overflow: visible;
+      -webkit-mask-image: none;
+      flex-shrink: 0;
+      
+      &.overflowing {
+        animation: none;
+      }
+    }
+    
+    .cardTitle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1 1 auto;
+      min-width: 200px;
+      padding: 0;
+      
+      h2.title {
+        flex: 1;
+        min-width: 0;
+      }
+    }
+  }
+  
+  /* 旧的样式保留用于其他元素 */
+  .cardTag {
+    &:first-child {
+      border-bottom-left-radius: 6px;
+      border-top-left-radius: 6px;
+    }
+
+    &:last-child {
+      border-bottom-right-radius: 6px;
+      border-top-right-radius: 6px;
+    }
+  }
+}
+
+/* ========================================
+   列表卡片特定样式 (List)
+   ======================================== */
+.CardsListItem.List {
+  // 左侧色条 - 使用标签颜色
+  border-left: 4px solid var(--tag-color, #ddd);
+  
+  .listCardContent {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0; // 移除内边距，让内容与边缘对齐
   }
 
-  &:last-child {
-    border-bottom-right-radius: 6px;
-    border-top-right-radius: 6px;
+  .listCardHeader {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 15px 0 15px; // 只在顶部和左右添加内边距
+  }
+
+  .listHeaderRow {
+    display: flex;
+    align-items: center; // 垂直居中对齐
+    gap: 8px;
+    flex-wrap: wrap;
+    
+    /* 重置大卡片的绝对定位 */
+    .cardBadges {
+      position: static;
+      margin: 0;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center; // 确保徽章垂直居中
+    }
+    
+    /* 重置大卡片的宽度限制 */
+    .cardTags {
+      margin: 0;
+      width: auto;
+      overflow: visible;
+      -webkit-mask-image: none;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center; // 确保标签垂直居中
+      
+      &.overflowing {
+        animation: none;
+      }
+    }
+    
+    /* 标题容器 */
+    .cardTitle {
+      display: flex;
+      align-items: center; // 垂直居中对齐
+      gap: 8px;
+      flex: 1 1 auto;
+      min-width: 200px;
+      padding: 0;
+      
+      h2.title {
+        flex: 1;
+        min-width: 0;
+        font-size: 1.1rem;
+        line-height: 1.4; // 统一行高
+        margin: 0;
+      }
+      
+      .DiscussionListItem-count {
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  /* 预览文本 */
+  .previewPost {
+    padding: 0 15px; // 左右内边距与header对齐
+    margin: 0;
+  }
+
+  /* 图片横向排列 - 在内容下方 */
+  .listImagesRow {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin: 0;
+    padding: 0 15px; // 左右内边距与header对齐
+    
+    /* 隐藏滚动条但保持可滚动 */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .listImageThumb {
+    height: 80px;
+    width: 80px;
+    min-width: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+    
+    @media @phone {
+      height: 60px;
+      width: 60px;
+      min-width: 60px;
+    }
+  }
+
+  /* 列表卡片底部信息样式 */
+  .listCardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 15px 15px 15px; // 保持左右内边距与header对齐
+    border-top: 1px solid #e8e8e8;
+    margin: 0; // 移除左右边距，让边框延伸到边缘
+    font-size: 0.875rem;
+    color: #666;
+    
+    .listMetaInfo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      
+      .listAuthor {
+        font-weight: 500;
+        color: #333;
+      }
+      
+      .listReplies {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: #666;
+        
+        .listIcon {
+          font-size: 0.875rem;
+        }
+      }
+      
+      .listDate {
+        color: #999;
+      }
+    }
+    
+    .listViews {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: #999;
+      
+      .listIcon {
+        font-size: 0.875rem;
+      }
+    }
+  }
+  
+  /* 终端帖子信息 */
+  .terminalPost {
+    padding: 0 15px; // 左右内边距与header对齐
+    margin: 0;
   }
 }
 
@@ -478,8 +698,8 @@
 
     .previewPost {
       margin-bottom: 0;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
+      -webkit-line-clamp: 5;
+      line-clamp: 5;
     }
 
     .previewCardImg {

@@ -1,6 +1,8 @@
 import Component from "flarum/common/Component";
 import craftBadges from "../utils/craftBadges";
 import getPostImage from "../helpers/getPostImage";
+import getPostImages from "../helpers/getPostImages";
+import highlightHashtags from "../helpers/highlightHashtags";
 import craftTags from "../utils/craftTags";
 import humanTime from 'flarum/common/utils/humanTime';
 import icon from 'flarum/common/helpers/icon';
@@ -112,15 +114,18 @@ export default class listItem extends Component {
 		}
 
     const isRead = Number(settings.markReadCards) === 1 && (discussion.isRead() && app.session.user) ? 'read' : '';
-    const attrs = {};
-    attrs.className = "wrapImg" + (Number(settings.showAuthor) === 1 ? " After" : '');
-    const image = getPostImage(discussion.firstPost(), settings.defaultImage, postIsBlogType);
-    const media = image
-      ? <img src={image}
-            className="previewCardImg"
-            alt={discussion.title()}
-            loading="lazy"/>
-      : <div className="imgStub"/>
+    
+    // 获取列表卡片最大图片数量设置（默认为3）
+    const maxListImages = Number(settings.maxListImages) || 3;
+    
+    // 获取最后一个标签的颜色用于左侧色条
+    const tags = discussion.tags();
+    const lastTag = tags && tags.length > 0 ? tags[tags.length - 1] : null;
+    const tagColor = lastTag ? lastTag.color() : '#ddd';
+    
+    // 获取多张图片
+    const images = getPostImages(discussion.firstPost(), settings.defaultImage, postIsBlogType, maxListImages);
+    const hasImages = images.length > 0;
 
     /* Jump to the last relevant post (first unread or last post) */
     const jumpTo = Math.min(discussion.lastPostNumber() ?? 0, (discussion.lastReadPostNumber() || 0) + 1);
@@ -134,7 +139,8 @@ export default class listItem extends Component {
     return (
       <div key={discussion.id()}
           data-id={discussion.id()}
-          className={"CardsListItem List " + isRead + (discussion.isHidden() ? " Hidden" : "")}>
+          className={"CardsListItem List " + isRead + (discussion.isHidden() ? " Hidden" : "")}
+          style={`--tag-color: ${tagColor}`}>
         {DiscussionControls.controls(discussion, this).toArray().length
           ? m(Dropdown, {
             icon: 'fas fa-ellipsis-v',
@@ -145,105 +151,92 @@ export default class listItem extends Component {
         <Link href={app.route.discussion(discussion, jumpTo)}
               className="cardLink">
 
-          {Number(settings.showBadges) === 1
-            ? craftBadges(discussion.badges().toArray())
-            : ''}
-
-          <div className="cardGrid">
-
-            <div className="rowSpan-3 colSpan">
-              <div {...attrs}>
-                {(isViewsSet || isViewCountSet) && (
-                  <>
-                  {Number(settings.showViews) === 1 && !isNaN(viewsCount)
-                    ? <div className="imageLabel discussionViews">
-                      {icon('fas fa-eye', {className: 'labelIcon'})}
-                      {viewsCount}
-                    </div>
-                    : ''}
-                  </>
-                )}
+          <div className="listCardContent">
+            {/* 顶部：徽章 + 标签 + 标题（智能一行布局，空间不足时标题自动换行） */}
+            <div className="listCardHeader">
+              <div className="listHeaderRow">
+                {/* 徽章 */}
+                {Number(settings.showBadges) === 1 && craftBadges(discussion.badges().toArray())}
                 
-                {media}
-
-                {Number(settings.showAuthor) === 1
-                  ? <div className="cardFoot">
-                    <div className="Author">
-                      {username(discussion.user())}
-                    </div>
-                    <div className="Date">
-                      {humanTime(discussion.createdAt())}
-                    </div>
-                  </div>
-                  : ''}
-
-              </div>
-            </div>
-
-            <div className="rowSpan-3 colSpan-2">
-
-              <div className="flexBox">
+                {/* 标签 */}
+                <div className="cardTags">{craftTags(discussion.tags())}</div>
+                
+                {/* 标题 */}
                 <div className="cardTitle">
                   <h2 title={discussion.title()} className="title">
-                    {Number(settings.allowRepostLinks) === 1 && repostActivated && repostUrl ? <a href={repostUrl} onclick={(e) => e.stopPropagation()}>{truncate(discussion.title(), 80)}</a> : truncate(discussion.title(), 80)}
+                    {Number(settings.allowRepostLinks) === 1 && repostActivated && repostUrl ? 
+                      <a href={repostUrl} onclick={(e) => e.stopPropagation()}>{truncate(discussion.title(), 80)}</a> : 
+                      truncate(discussion.title(), 80)
+                    }
                   </h2>
                   {app.screen() !== 'phone' && Number(settings.showReplies) === 1 && Number(settings.showRepliesOnRight) === 1 ?
-                  <div className="DiscussionListItem-count">
-                    <span aria-hidden="true">{abbreviateNumber(postCount)}</span>
-
-                    <span className="visually-hidden">
-                      {app.translator.trans('core.forum.discussion_list.unread_replies_a11y_label', { count: discussion.replyCount() })}
-                    </span>
-                  </div>
-                : ''}
+                    <div className="DiscussionListItem-count">
+                      <span aria-hidden="true">{abbreviateNumber(postCount)}</span>
+                      <span className="visually-hidden">
+                        {app.translator.trans('core.forum.discussion_list.unread_replies_a11y_label', { count: discussion.replyCount() })}
+                      </span>
+                    </div>
+                  : ''}
                 </div>
-                <div className="cardTags">{craftTags(discussion.tags())}</div>
               </div>
-
-              {Number(settings.previewText) === 1 && discussion.firstPost() ? (
-                <div className="previewPost">
-                  {blogActivated && Number(settings.useBlogSummary) === 1 && discussion.data.relationships.hasOwnProperty('blogMeta') && discussion.blogMeta().summary() !== ''
-                    ? truncate(discussion.blogMeta().summary(), 150)
-                    : truncate(discussion.firstPost().contentPlain(), 150)
-                  }
-                </div>
-                ) : (
-                  ''
-                )}
-                
-              {Number(settings.showLastPostInfo) === 1 && discussion.firstPost() ? (
-                <div className="terminalPost">
-                  <TerminalPost discussion={discussion} lastPost={discussion.lastPostNumber()} />
-                </div>
-              ) : (
-                ''
-              )}
-
-              {app.screen() === 'phone' && Number(settings.showReplies) === 1
-                ? <div className="cardSpacer">
-                  <Link
-                    className="Replies"
-                    href={app.route.discussion(discussion, discussion.lastPostNumber())}>
-                    <div className="Left">
-                      <div className="Avatars">
-                        {m(LastReplies, {discussion: discussion})}
-                      </div>
-                      <div className="Repcount">
-                        {replyText}
-                      </div>
-                    </div>
-                    <div className="Arrow">
-                      {icon('fas fa-angle-right')}
-                    </div>
-                  </Link>
-                </div>
-                : Number(settings.showReplies) === 1 && !Number(settings.showRepliesOnRight) ?
-                  <div className="imageLabel discussionReplyCount">
-                    {icon('fas fa-comment', {className: 'labelIcon'})}
-                    {postCount}
-                  </div> : ''
-              }
             </div>
+
+            {/* 预览文本 */}
+            {Number(settings.previewText) === 1 && discussion.firstPost() ? (
+              <div className="previewPost">
+                {m.trust(highlightHashtags(
+                  blogActivated && Number(settings.useBlogSummary) === 1 && discussion.data.relationships.hasOwnProperty('blogMeta') && discussion.blogMeta().summary() !== ''
+                    ? truncate(discussion.blogMeta().summary(), 300)
+                    : truncate(discussion.firstPost().contentPlain(), 300)
+                ))}
+              </div>
+            ) : ''}
+
+            {/* 图片网格 - 在内容下方横向显示 */}
+            {hasImages && (
+              <div className="listImagesRow">
+                {images.map((img, index) => (
+                  <img 
+                    key={index}
+                    src={img}
+                    className="listImageThumb"
+                    alt={discussion.title()}
+                    loading="lazy"
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* 作者、回复数和时间信息 */}
+            {Number(settings.showAuthor) === 1 && (
+              <div className="listCardFooter">
+                <div className="listMetaInfo">
+                  <span className="listAuthor">{username(discussion.user())}</span>
+                  
+                  {Number(settings.showReplies) === 1 && (
+                    <span className="listReplies">
+                      {icon('fas fa-comment', {className: 'listIcon'})}
+                      <span>{postCount}</span>
+                    </span>
+                  )}
+                  
+                  <span className="listDate">{humanTime(discussion.createdAt())}</span>
+                </div>
+                
+                {(isViewsSet || isViewCountSet) && Number(settings.showViews) === 1 && !isNaN(viewsCount) && (
+                  <div className="listViews">
+                    {icon('fas fa-eye', {className: 'listIcon'})}
+                    <span>{viewsCount}</span>
+                  </div>
+                )}
+              </div>
+            )}
+              
+            {Number(settings.showLastPostInfo) === 1 && discussion.firstPost() ? (
+              <div className="terminalPost">
+                <TerminalPost discussion={discussion} lastPost={discussion.lastPostNumber()} />
+              </div>
+            ) : ''}
           </div>
         </Link>
       </div>

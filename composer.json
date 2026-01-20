@@ -1,19 +1,18 @@
 {
-    "name": "walsgit/flarum-discussion-cards",
-    "description": "Output of discussions lists in form of cards",
+    "name": "aoang-git/flarum-discussion-cards",
+    "description": "增强版讨论卡片扩展 - 基于 walsgit/flarum-discussion-cards，添加图片优化、标签色条、内容高亮等功能",
     "type": "flarum-extension",
-    "keywords": ["flarum", "extension", "discussion", "cards"],
+    "keywords": ["flarum", "extension", "discussion", "cards", "enhanced", "中文"],
     "license": "MIT",
     "authors": [
         {
-            "name": "Wa!id",
-            "homepage": "https://discuss.flarum.org/u/Walid"
-        }
-    ],
-    "funding": [
+            "name": "aoangen",
+            "email": "aoangen@qq.com",
+            "homepage": "https://github.com/aoang-git"
+        },
         {
-            "type": "website",
-            "url": "https://walsgit.github.io/Donations/"
+            "name": "Wa!id (原作者)",
+            "homepage": "https://discuss.flarum.org/u/Walid"
         }
     ],
     "require": {
@@ -27,7 +26,7 @@
     },
     "extra": {
         "flarum-extension": {
-            "title": "Flarum Discussion Сards",
+            "title": "Flarum Discussion Cards (Enhanced)",
             "category": "feature",
             "icon": {
                 "name": "fas fa-border-all",
@@ -37,7 +36,7 @@
         }
     },
     "support": {
-        "issues": "https://github.com/WalsGit/flarum-discussion-cards/issues",
-        "forum": "https://discuss.flarum.org/d/36343-flarum-discussion-cards"
+        "issues": "https://github.com/aoang-git/flarum-discussion-cards/issues",
+        "source": "https://github.com/aoang-git/flarum-discussion-cards"
     }
 }
