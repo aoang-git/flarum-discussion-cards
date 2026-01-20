@@ -30,6 +30,15 @@ app.initializers.add('aoang-git-discussion-cards', () => {
         settings[newKey] = app.forum.data.attributes[key];
       }
     }
+    
+    // 解析 allowedTags JSON 字符串为数组
+    if (settings.allowedTags && typeof settings.allowedTags === 'string') {
+      try {
+        settings.allowedTags = JSON.parse(settings.allowedTags);
+      } catch (e) {
+        settings.allowedTags = [];
+      }
+    }
     const state = this.attrs.state;
     const params = state.getParams();
     let loading;
