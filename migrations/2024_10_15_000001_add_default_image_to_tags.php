@@ -23,7 +23,7 @@ return [
     },
 
     'down' => function (Builder $schema) {
-        $schema->table('tags', function (Blueprint $table) {
+        $schema->table('tags', function (Blueprint $table) use ($schema) {
             if ($schema->hasColumn('tags', 'walsgit_discussion_cards_tag_default_image')) {
                 $table->dropColumn('walsgit_discussion_cards_tag_default_image');
             }

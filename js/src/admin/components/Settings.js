@@ -245,22 +245,36 @@ export default class Settings extends ExtensionPage {
 	}
 
 	onsubmit() {
-		const primaryCards = Number(this.setting('walsgit_discussion_cards_primaryCards')());
-		const desktopCardWidth = Number(this.setting('walsgit_discussion_cards_desktopCardWidth')());
-		const tabletCardWidth = Number(this.setting('walsgit_discussion_cards_tabletCardWidth')());
+		const primaryCards = this.setting('walsgit_discussion_cards_primaryCards')();
+		const desktopCardWidth = this.setting('walsgit_discussion_cards_desktopCardWidth')();
+		const tabletCardWidth = this.setting('walsgit_discussion_cards_tabletCardWidth')();
 
-        if (primaryCards < 0 || isNaN(primaryCards)) {
-            app.alerts.show({ type: 'error' }, app.translator.trans('walsgit_discussion_cards.admin.errors.primaryCards'));
-            return false;
-        }
-        if (desktopCardWidth < 10 || desktopCardWidth > 100 || isNaN(desktopCardWidth)) {
-            app.alerts.show({ type: 'error' }, app.translator.trans('walsgit_discussion_cards.admin.errors.desktopCardWidth'));
-            return false;
-        }
-        if (tabletCardWidth < 10 || tabletCardWidth > 100 || isNaN(tabletCardWidth)) {
-            app.alerts.show({ type: 'error' }, app.translator.trans('walsgit_discussion_cards.admin.errors.tabletCardWidth'));
-            return false;
-        }
+		// 验证 primaryCards（允许空值，空值会使用默认值 0）
+		if (primaryCards !== '' && primaryCards !== null) {
+			const num = Number(primaryCards);
+			if (isNaN(num) || num < 0) {
+				app.alerts.show({ type: 'error' }, app.translator.trans('walsgit_discussion_cards.admin.errors.primaryCards'));
+				return false;
+			}
+		}
+		
+		// 验证 desktopCardWidth（允许空值，空值会使用默认值 49）
+		if (desktopCardWidth !== '' && desktopCardWidth !== null) {
+			const num = Number(desktopCardWidth);
+			if (isNaN(num) || num < 10 || num > 100) {
+				app.alerts.show({ type: 'error' }, app.translator.trans('walsgit_discussion_cards.admin.errors.desktopCardWidth'));
+				return false;
+			}
+		}
+		
+		// 验证 tabletCardWidth（允许空值，空值会使用默认值 49）
+		if (tabletCardWidth !== '' && tabletCardWidth !== null) {
+			const num = Number(tabletCardWidth);
+			if (isNaN(num) || num < 10 || num > 100) {
+				app.alerts.show({ type: 'error' }, app.translator.trans('walsgit_discussion_cards.admin.errors.tabletCardWidth'));
+				return false;
+			}
+		}
 
         return true;
     }

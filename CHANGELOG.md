@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.9] - 2026-01-21
+
+### Fixed
+- **修复设置保存验证问题**
+  - 修复空值验证逻辑，允许使用默认值
+  - 现在空的数字字段会使用 placeholder 中定义的默认值
+- **修复迁移文件中的变量作用域问题**
+  - 在 `down` 方法的闭包中添加 `use ($schema)`
+  - 修复点击"重置"按钮时的 500 错误
+
 ## [1.3.8] - 2026-01-21
 
 ### Fixed
