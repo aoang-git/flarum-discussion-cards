@@ -111,6 +111,17 @@ export default class Settings extends ExtensionPage {
 								{m(UploadImageButton, {name: "walsgit_discussion_cards_default_image", class: "DC-UploadImageBtn"})}
 							</div>
 							{this.buildSettingComponent({
+								type: "number",
+								className: 'DC-Number',
+								setting: "walsgit_discussion_cards_maxListImages",
+								label: app.translator.trans("walsgit_discussion_cards.admin.settings.general.maxListImages_label"),
+								help: app.translator.trans("walsgit_discussion_cards.admin.settings.general.maxListImages_help"),
+								min: 0,
+								max: 5,
+								step: 1,
+								placeholder: 3,
+							})}
+							{this.buildSettingComponent({
 								type: "switch",
 								setting: "walsgit_discussion_cards_previewText",
 								label: app.translator.trans("walsgit_discussion_cards.admin.settings.general.previewText_label"),
@@ -248,6 +259,7 @@ export default class Settings extends ExtensionPage {
 		const primaryCards = this.setting('walsgit_discussion_cards_primaryCards')();
 		const desktopCardWidth = this.setting('walsgit_discussion_cards_desktopCardWidth')();
 		const tabletCardWidth = this.setting('walsgit_discussion_cards_tabletCardWidth')();
+		const maxListImages = this.setting('walsgit_discussion_cards_maxListImages')();
 
 		// 验证 primaryCards（允许空值，空值会使用默认值 0）
 		if (primaryCards !== '' && primaryCards !== null) {
@@ -272,6 +284,15 @@ export default class Settings extends ExtensionPage {
 			const num = Number(tabletCardWidth);
 			if (isNaN(num) || num < 10 || num > 100) {
 				app.alerts.show({ type: 'error' }, app.translator.trans('walsgit_discussion_cards.admin.errors.tabletCardWidth'));
+				return false;
+			}
+		}
+		
+		// 验证 maxListImages（允许空值，空值会使用默认值 3）
+		if (maxListImages !== '' && maxListImages !== null) {
+			const num = Number(maxListImages);
+			if (isNaN(num) || num < 0 || num > 5) {
+				app.alerts.show({ type: 'error' }, app.translator.trans('walsgit_discussion_cards.admin.errors.maxListImages'));
 				return false;
 			}
 		}

@@ -6,7 +6,7 @@ walsgit_discussion_cards:
     settings:
       general:
         where_title: "在哪里使用？ Where?"
-        where_info: "设置您想在哪里使用讨论卡片。 Set where you want to use discussion cards."
+        where_info: "设置您想在哪里使用卡片样式。 Set where you want to use discussion cards."
         allowedTags_label: "选择标签 Select tags"
         allowedTags_help: "讨论卡片将在选定的标签页面中激活并显示。 Discussion cards will be activated and shown for the selected tags pages."
         onIndexPage_label: "在首页激活卡片 Activate cards on the Index Page"
@@ -21,6 +21,8 @@ walsgit_discussion_cards:
         tabletCardWidth_help: "设置平板端主要卡片的宽度（百分比，10-100 之间）。 Set the width (in %) of the primary cards on tablets. (between 10 and 100)"
         cardOptions_title: "卡片选项 Card options"
         cardOptions_info: "设置卡片上应显示哪些数据/信息。 Set what data/infos should be shown on the cards."
+        maxListImages_label: "列表卡片最大图片数 Maximum images for list cards"
+        maxListImages_help: "设置列表卡片（非主要卡片）显示的最大缩略图数量（0-5 之间，0 表示不显示图片）。 Set the maximum number of thumbnail images shown on list cards (non-primary cards). (between 0 and 5, 0 for no images)"
         defaultImage_title: "通用默认图片 General default image"
         defaultImage_info: "在这里您可以更改当讨论的第一条消息中找不到图片时卡片上使用的默认图片。<u>重要</u>：<em>请注意，更改图片将丢弃您所做的任何其他未保存的设置更改，并将自动重新加载页面。请在更改图片之前保存您的更改</em>（或反之亦然 😉）。接受的格式：JPG、PNG、GIF、BMP 或 WebP 文件。理想分辨率：400px x 225px（所有上传的图片将被转换为 PNG 文件并调整为 400px 宽度，宽度较小的图片除外，它们将保持初始分辨率，不会被放大）。根据您文件的分辨率，图片可能会在卡片上显示为裁剪和/或拉伸。 Here you can change the default image to be used on cards when none is found in the discussion's first message. <u>IMPORTANT</u>: <em>note that changing the image will discard any other unsaved settings changes you made and will reload the page automatically. Please save your changes before changing the image</em> (or vice versa 😉). Accepted formats: JPG, PNG, GIF, BMP or WebP files. Ideal resolution: 400px x 225px (all uploaded images will be converted to a PNG file and resized to a width of 400px, except for images with smaller width, which will keep there initial resolution, and won't be upscaled). Depending on your file's resolution, the image could be shown cropped and/or stretched on cards."
         previewText_label: "预览文本 Preview text"
@@ -81,3 +83,4 @@ walsgit_discussion_cards:
       primaryCards: "主要卡片数量必须是正数（0 或更大） Number of primary cards must be a positive number (0 or greater)"
       desktopCardWidth: "桌面端主要卡片宽度必须是 10 到 100 之间的数字 Primary cards width on desktop must be a number between 10 and 100"
       tabletCardWidth: "平板端主要卡片宽度必须是 10 到 100 之间的数字 Primary cards width on tablets must be a number between 10 and 100"
+      maxListImages: "列表卡片最大图片数必须是 0 到 5 之间的数字 Maximum images for list cards must be a number between 0 and 5"
