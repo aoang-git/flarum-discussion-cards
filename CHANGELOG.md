@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.5] - 2026-01-21
+
+### Fixed
+- **关键修复**：修正扩展 ID 命名错误
+  - 根据 Flarum 官方规范，包含 `flarum-` 前缀的扩展应省略该前缀
+  - 将扩展 ID 从 `aoang-git-flarum-discussion-cards` 更正为 `aoang-git-discussion-cards`
+  - 这是导致管理面板设置页面无法显示的根本原因
+
+### Technical
+- 更新 `js/src/admin/index.js` 中的扩展 ID
+- 更新 `js/src/forum/index.js` 中的扩展 ID
+- 重新编译前端资源文件
+
 ## [1.3.4] - 2026-01-21
 
 ### Fixed
