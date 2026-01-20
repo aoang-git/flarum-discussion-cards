@@ -31,14 +31,21 @@ app.initializers.add('aoang-git-discussion-cards', () => {
       }
     }
     
-    // 解析 allowedTags JSON 字符串为数组
+    // 解析 allowedTags JSON 字符串为数组，确保始终是数组
     if (settings.allowedTags && typeof settings.allowedTags === 'string') {
       try {
         settings.allowedTags = JSON.parse(settings.allowedTags);
       } catch (e) {
+        console.error('Failed to parse allowedTags:', e);
         settings.allowedTags = [];
       }
     }
+    
+    // 确保 allowedTags 是数组
+    if (!Array.isArray(settings.allowedTags)) {
+      settings.allowedTags = [];
+    }
+    
     const state = this.attrs.state;
     const params = state.getParams();
     let loading;
@@ -57,18 +64,47 @@ app.initializers.add('aoang-git-discussion-cards', () => {
       const text = app.translator.trans('core.forum.discussion_list.empty_text');
       return <div className="DiscussionList">{m(Placeholder, {text})}</div>;
     }
+    
     const isTagPage = m.route.get().split('?')[0].startsWith('/t/');
     let tag = null;
-    if (isTagPage) {
-      tag = app.store.all('tags').find(t => t.slug() === params.tags).data.id;
-      const tagSettings = JSON.parse(app.store.all('tags').find(t => t.slug() === params.tags).data.attributes.walsgitDiscussionCardsTagSettings);
-      for (const key in tagSettings) {
-        if (settings.hasOwnProperty(key) && tagSettings[key] !== settings[key]) {
-          settings[key] = tagSettings[key];
+    
+    if (isTagPage && params.tags) {
+      // 查找标签对象（只查找一次）
+      const tagObject = app.store.all('tags').find(t => t.slug() === params.tags);
+      
+      if (tagObject) {
+        // 确保 tag ID 是字符串类型，以便与 allowedTags 数组中的字符串匹配
+        tag = String(tagObject.data.id);
+        
+        // 安全地解析标签设置
+        const tagSettingsAttr = tagObject.data.attributes.walsgitDiscussionCardsTagSettings;
+        if (tagSettingsAttr) {
+          try {
+            const tagSettings = JSON.parse(tagSettingsAttr);
+            // 合并标签特定设置到全局设置
+            if (tagSettings && typeof tagSettings === 'object') {
+              for (const key in tagSettings) {
+                if (settings.hasOwnProperty(key) && tagSettings[key] !== null && tagSettings[key] !== undefined) {
+                  settings[key] = tagSettings[key];
+                }
+              }
+            }
+          } catch (e) {
+            console.error('Failed to parse tag settings:', e);
+          }
         }
       }
     }
-    if (app.current.matches(IndexPage) && ((settings.allowedTags.length && settings.allowedTags.includes(tag)) || (!params.tags && Number(settings.onIndexPage) === 1))) {
+    
+    // 判断是否显示卡片视图
+    const shouldShowCards = app.current.matches(IndexPage) && (
+      // 情况1：在标签页面且该标签在允许列表中
+      (tag && settings.allowedTags.length > 0 && settings.allowedTags.includes(tag)) ||
+      // 情况2：在首页且开启了首页卡片显示
+      (!params.tags && Number(settings.onIndexPage) === 1)
+    );
+    
+    if (shouldShowCards) {
       return (
         <div className={'DiscussionList' + (state.isSearchResults() ? ' DiscussionList--searchResults' : '')}>
           <div class="DiscussionList-discussions flexCard">

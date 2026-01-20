@@ -3,7 +3,6 @@ import Settings from "./components/Settings";
 import { extend } from "flarum/extend";
 import Model from "flarum/common/Model";
 import Button from "flarum/common/components/Button";
-import icon from 'flarum/common/helpers/icon';
 import Tag from "flarum/tags/models/Tag";
 import EditTagModal from "flarum/tags/components/EditTagModal";
 import WdcTagSettingsModal from "./components/WdcTagSettingsModal";
@@ -16,8 +15,26 @@ app.initializers.add("aoang-git-discussion-cards", () => {
 
 	extend(EditTagModal.prototype, "fields", function (items) {
 		if (this.tag.id()) {
-			let allowedTags = JSON.parse(app.forum.attribute('walsgitDiscussionCardsAllowedTags'));
-			let isActivatedForTag = allowedTags.includes(this.tag.id());
+			// 解析 allowedTags，确保是数组
+			let allowedTags = [];
+			try {
+				const allowedTagsAttr = app.forum.attribute('walsgitDiscussionCardsAllowedTags');
+				if (allowedTagsAttr) {
+					allowedTags = JSON.parse(allowedTagsAttr);
+				}
+			} catch (e) {
+				console.error('Failed to parse allowedTags:', e);
+				allowedTags = [];
+			}
+			
+			// 确保是数组
+			if (!Array.isArray(allowedTags)) {
+				allowedTags = [];
+			}
+			
+			// 将标签 ID 转换为字符串以确保类型一致
+			const tagId = String(this.tag.id());
+			let isActivatedForTag = allowedTags.includes(tagId);
 			
 			let activationBtnClasses = isActivatedForTag
 				? "DC-ActivationBtn Button activated"
@@ -30,9 +47,9 @@ app.initializers.add("aoang-git-discussion-cards", () => {
 			const toggleActivation = () => {
 				isActivatedForTag = !isActivatedForTag;
 				if (isActivatedForTag) {
-					allowedTags.push(this.tag.id());
+					allowedTags.push(tagId);
 				} else {
-					allowedTags = allowedTags.filter(id => id !== this.tag.id());
+					allowedTags = allowedTags.filter(id => id !== tagId);
 				}
 
 				app.request({

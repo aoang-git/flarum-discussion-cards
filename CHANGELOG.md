@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.7] - 2026-01-21
+
+### Fixed
+- **全面修复类型匹配和错误处理问题**
+  - 修复 `allowedTags` 可能未定义导致的错误
+  - 修复 `tagSettings` 为 null 或空时的解析错误
+  - 优化标签查找逻辑，避免重复查询
+  - 统一标签 ID 类型为字符串，确保前后端一致性
+  - 添加完善的错误处理和日志记录
+  - 改进卡片显示判断逻辑的可读性和健壮性
+
+### Changed
+- 移除未使用的 `icon` 导入
+- 优化代码结构，提高可维护性
+
+## [1.3.6] - 2026-01-21
+
+### Fixed
+- 修复标签 ID 类型不匹配问题：将数字类型的标签 ID 转换为字符串，确保与 allowedTags 数组正确匹配
+- 修复 allowedTags JSON 字符串解析问题：在前端正确解析 JSON 字符串为数组
+- 现在选择的标签页面可以正确显示卡片视图
+
 ## [1.3.5] - 2026-01-21
 
 ### Fixed
