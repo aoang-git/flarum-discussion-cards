@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.8] - 2026-01-21
+
+### Fixed
+- **修复子目录安装时标签页面识别问题**
+  - 修复路由检测逻辑，支持 Flarum 安装在子目录的情况
+  - 将 `startsWith('/t/')` 改为 `includes('/t/')`，兼容各种安装路径
+  - 现在无论 Flarum 安装在根目录还是子目录，标签页面都能正确显示卡片视图
+
+### Changed
+- 移除调试日志代码，提升性能
+
 ## [1.3.7] - 2026-01-21
 
 ### Fixed

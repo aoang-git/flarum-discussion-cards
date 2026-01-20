@@ -65,7 +65,9 @@ app.initializers.add('aoang-git-discussion-cards', () => {
       return <div className="DiscussionList">{m(Placeholder, {text})}</div>;
     }
     
-    const isTagPage = m.route.get().split('?')[0].startsWith('/t/');
+    // 检查是否是标签页面（考虑子目录安装）
+    const currentRoute = m.route.get();
+    const isTagPage = currentRoute.includes('/t/');
     let tag = null;
     
     if (isTagPage && params.tags) {
