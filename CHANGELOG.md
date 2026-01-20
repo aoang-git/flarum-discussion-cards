@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.0] - 2026-01-21
+
+### Fixed
+- **修复 LESS 编译错误**
+  - 移除对未定义 mixin `.far()` 的依赖
+  - 直接使用 Font Awesome 字体样式，避免编译失败
+  - 修复前台页面 500 错误
+
 ## [1.3.9] - 2026-01-21
 
 ### Fixed
