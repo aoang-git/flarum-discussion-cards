@@ -36,10 +36,18 @@
 
 ## 📦 安装
 
+**注意**：所有命令都需要在 Flarum 安装目录下运行（包含 `composer.json` 的目录）。
+
 ### 新安装
 
 ```sh
+# 进入 Flarum 安装目录
+cd /path/to/your/flarum
+
+# 安装扩展
 composer require aoang-git/flarum-discussion-cards
+
+# 清理缓存
 php flarum cache:clear
 ```
 
@@ -67,7 +75,13 @@ php flarum cache:clear
 ## 🔄 更新
 
 ```sh
+# 进入 Flarum 安装目录
+cd /path/to/your/flarum
+
+# 更新扩展
 composer update aoang-git/flarum-discussion-cards --with-dependencies
+
+# 清理缓存
 php flarum cache:clear
 ```
 

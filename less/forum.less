@@ -611,12 +611,15 @@ h2.title {
   }
 
   .flexCard {
-    background: @control-bg;
+    background: transparent;
+    padding: 0 5px; // 左右 5px 边距
   }
 
   .CardsListItem {
-    margin-bottom: 15px;
-    border-bottom: 1px solid fade(@primary-color, 15%);
+    margin-bottom: 10px; // 卡片之间的间距
+    border-radius: 0.5rem; // 添加圆角
+    overflow: hidden; // 确保内容不超出圆角
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); // 增强阴影效果
 
     .previewCardImg, .wrapImg {
       height: 14rem;
