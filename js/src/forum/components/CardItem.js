@@ -1,6 +1,7 @@
 import Component from "flarum/common/Component";
 import craftBadges from "../utils/craftBadges";
 import getPostImage from "../helpers/getPostImage";
+import highlightHashtags from "../helpers/highlightHashtags";
 import craftTags from "../utils/craftTags";
 import humanTime from "flarum/common/utils/humanTime";
 import icon from "flarum/common/helpers/icon";
@@ -221,10 +222,11 @@ export default class cardItem extends Component {
 
 					{Number(settings.previewText) === 1 && discussion.firstPost() ? (
 						<div className="previewPost">
-							{blogActivated && Number(settings.useBlogSummary) === 1 && discussion.data.relationships.hasOwnProperty('blogMeta') && discussion.blogMeta().summary() !== ''
-								? truncate(discussion.blogMeta().summary(), 150)
-								: truncate(discussion.firstPost().contentPlain(), 150)
-							}
+							{m.trust(highlightHashtags(
+								blogActivated && Number(settings.useBlogSummary) === 1 && discussion.data.relationships.hasOwnProperty('blogMeta') && discussion.blogMeta().summary() !== ''
+									? truncate(discussion.blogMeta().summary(), 150)
+									: truncate(discussion.firstPost().contentPlain(), 150)
+							))}
 						</div>
 					) : (
 						""
