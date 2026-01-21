@@ -220,6 +220,12 @@ export default class listItem extends Component {
                     </span>
                   )}
                   
+                  {Number(settings.showLastPostInfo) === 1 && discussion.firstPost() && (
+                    <span className="listTerminalPost">
+                      <TerminalPost discussion={discussion} lastPost={discussion.lastPostNumber()} />
+                    </span>
+                  )}
+                  
                   <span className="listDate">{humanTime(discussion.createdAt())}</span>
                 </div>
                 
@@ -231,12 +237,6 @@ export default class listItem extends Component {
                 )}
               </div>
             )}
-              
-            {Number(settings.showLastPostInfo) === 1 && discussion.firstPost() ? (
-              <div className="terminalPost">
-                <TerminalPost discussion={discussion} lastPost={discussion.lastPostNumber()} />
-              </div>
-            ) : ''}
           </div>
         </Link>
       </div>

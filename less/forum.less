@@ -176,8 +176,6 @@
   line-clamp: 5;
   box-orient: vertical;
   word-break: normal;
-  margin-bottom: 25px;
-  margin-top: -5px;
 }
 
 .terminalPost {
@@ -284,18 +282,25 @@ h2.title {
    大卡片特定样式 (Card)
    ======================================== */
 .CardsListItem.Card {
+  /* 内容区域 */
+  .cardContentArea {
+    padding: 0 15px;
+  }
+  
   /* 徽章、标签、标题行 - 与ListItem相同的布局 */
   .cardHeaderRow {
     display: flex;
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
-    padding: 0 1rem 0.5rem 1rem;
+    margin-bottom: 0.75rem;
     
     .cardBadges {
-      position: static; // 不再绝对定位
+      position: static;
       margin: 0;
       flex-shrink: 0;
+      display: flex;
+      gap: 4px;
     }
     
     .cardTags {
@@ -304,25 +309,47 @@ h2.title {
       overflow: visible;
       -webkit-mask-image: none;
       flex-shrink: 0;
+      display: flex;
+      gap: 4px;
       
       &.overflowing {
         animation: none;
       }
     }
     
+    /* 标题容器 - 让标题和徽章、标签在同一行 */
     .cardTitle {
-      display: flex;
-      align-items: center;
-      gap: 8px;
       flex: 1 1 auto;
       min-width: 200px;
       padding: 0;
+      margin: 0;
       
       h2.title {
-        flex: 1;
-        min-width: 0;
+        margin: 0;
+        line-height: 1.4;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
       }
     }
+  }
+  
+  /* 预览文本 */
+  .previewPost {
+    padding: 0 15px;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  
+  /* 终端帖子信息 */
+  .terminalPost {
+    padding: 0 15px;
+    margin-top: 0.3rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  /* 回复数区域 - 大卡片隐藏 */
+  .cardSpacer {
+    display: none;
   }
   
   /* 旧的样式保留用于其他元素 */
@@ -486,6 +513,11 @@ h2.title {
         .listIcon {
           font-size: 0.875rem;
         }
+      }
+      
+      .listTerminalPost {
+        color: #999;
+        font-size: 0.875rem;
       }
       
       .listDate {

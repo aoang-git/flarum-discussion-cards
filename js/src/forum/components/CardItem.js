@@ -133,6 +133,7 @@ export default class cardItem extends Component {
 		const replyText = discussion.unreadCount() 
 			? app.translator.trans("walsgit_discussion_cards.forum.unreadReplies", { count: discussion.unreadCount()} ) 
 			: app.translator.trans("walsgit_discussion_cards.forum.replies", { count: discussion.replyCount() || "0"} );
+		const postCount = discussion.unreadCount() ? discussion.unreadCount() + "*" : discussion.replyCount();
 
 		return (
 			<div
@@ -164,10 +165,7 @@ export default class cardItem extends Component {
 					href={app.route.discussion(discussion, jumpTo)}
 					className="cardLink"
 				>
-					{Number(settings.showBadges) === 1
-						? craftBadges(discussion.badges().toArray())
-						: ""}
-
+					{/* 图片区域 */}
 					<div {...attrs}>
 						{(isViewsSet || isViewCountSet) && (
 							<>
@@ -199,14 +197,28 @@ export default class cardItem extends Component {
 						)}
 					</div>
 
-					<div className="cardTags">
-						{craftTags(discussion.tags())}
+					{/* 内容区域：徽章 + 标签 + 标题 */}
+					<div className="cardContentArea">
+						<div className="cardHeaderRow">
+							{/* 徽章 */}
+							{Number(settings.showBadges) === 1
+								? craftBadges(discussion.badges().toArray())
+								: ""}
+							
+							{/* 标签 */}
+							<div className="cardTags">
+								{craftTags(discussion.tags())}
+							</div>
+							
+							{/* 标题 */}
+							<div className="cardTitle">
+								<h2 title={discussion.title()} className="title">
+									{Number(settings.allowRepostLinks) === 1 && repostActivated && repostUrl ? <a href={repostUrl} onclick={(e) => e.stopPropagation()}>{truncate(discussion.title(), 80)}</a> : truncate(discussion.title(), 80)}
+								</h2>
+							</div>
+						</div>
 					</div>
-					<div className="cardTitle">
-						<h2 title={discussion.title()} className="title">
-							{Number(settings.allowRepostLinks) === 1 && repostActivated && repostUrl ? <a href={repostUrl} onclick={(e) => e.stopPropagation()}>{truncate(discussion.title(), 80)}</a> : truncate(discussion.title(), 80)}
-						</h2>
-					</div>
+
 					{Number(settings.previewText) === 1 && discussion.firstPost() ? (
 						<div className="previewPost">
 							{blogActivated && Number(settings.useBlogSummary) === 1 && discussion.data.relationships.hasOwnProperty('blogMeta') && discussion.blogMeta().summary() !== ''
@@ -224,34 +236,6 @@ export default class cardItem extends Component {
 						</div>
 					) : (
 						''
-					)}
-
-					{Number(settings.showReplies) === 1 ? (
-						<div className="cardSpacer">
-							<Link
-								className="Replies"
-								href={app.route.discussion(
-									discussion,
-									discussion.lastPostNumber()
-								)}
-							>
-								<div className="Left">
-									<div className="Avatars">
-										{m(LastReplies, {
-											discussion: discussion,
-										})}
-									</div>
-									<div className="Repcount">
-										{replyText}
-									</div>
-								</div>
-								<div className="Arrow">
-									{icon("fas fa-angle-right")}
-								</div>
-							</Link>
-						</div>
-					) : (
-						""
 					)}
 				</Link>
 			</div>
